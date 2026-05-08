@@ -35,7 +35,7 @@ esac
 log "Step 2/7: Resolving latest release..."
 
 # Get latest version
-TAG=$(curl -fsI "https://github.com/$REPO/releases/latest" | grep -i "^location:" | sed 's/.*tag\///' | tr -d '\r\n')
+TAG=$(curl -fsLI -o /dev/null -w '%{url_effective}' "https://github.com/$REPO/releases/latest" | sed -n 's|.*/tag/||p')
 if [ -z "$TAG" ]; then
   echo "Failed to fetch latest version"
   exit 1
